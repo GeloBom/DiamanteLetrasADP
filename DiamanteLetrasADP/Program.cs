@@ -1,4 +1,4 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System;
 
 namespace DiamanteLetrasADP
 {
@@ -6,30 +6,46 @@ namespace DiamanteLetrasADP
     {
         static void Main(string[] args)
         {
+            MenuInicial();
+
             while (true)
             {
-                int letra = InputUsuario(); // Input do usuário
-                int tamanho = 2 * letra - 129; // Tamanho do grid
-                CalculoDiamante(letra, tamanho); // Desenho/calculo
-                if (EncerrarPrograma()) break;
+                int letra = InputUsuario(); // Recebe a letra do usuário
+                int tamanho = 2 * letra - 129; // Calcula o tamanho do diamante
+                CalculoDiamante(letra, tamanho); // Desenha o diamante
+                if (EncerrarPrograma()) break; // Verifica se o usuário deseja encerrar o programa
             }
+        }
 
+        private static void MenuInicial()
+        {
+            Console.WriteLine("=====================================================");
+            Console.WriteLine("|                                                   |");
+            Console.WriteLine("|             Bem-vindo ao Programa                 |");
+            Console.WriteLine("|           Desenho de Diamante em X                |");
+            Console.WriteLine("|                                                   |");
+            Console.WriteLine("|      Prepare-se para uma jornada criativa!        |");
+            Console.WriteLine("|                                                   |");
+            Console.WriteLine("=====================================================\n");
+            Console.WriteLine("     Pressione qualquer tecla para continuar...");
+            Console.ReadKey();
+            Console.Clear();
         }
 
         private static void CalculoDiamante(int letra, int tamanho)
         {
-            int metade = (tamanho - 1) / 2; // Calcula o ponto médio do diamante.
+            int metade = (tamanho - 1) / 2; // Calcula o ponto médio do diamante
             Console.WriteLine();
 
-            // Loop linhas do diamante
+            // Loop para as linhas do diamante
             for (int i = 0; i < tamanho; i++)
             {
-                int letraConsole = letra - Convert.ToInt32(Math.Abs(i - metade));
+                int letraConsole = letra - Math.Abs(i - metade);
 
-                // Loop colunas do diamante
+                // Loop para as colunas do diamante
                 for (int j = 0; j < tamanho; j++)
                 {
-                    // Escreve a letra.
+                    // Escreve a letra
                     if (Math.Abs(j - metade) == i && i <= metade)
                     {
                         Console.Write(Convert.ToChar(letraConsole));
@@ -51,28 +67,29 @@ namespace DiamanteLetrasADP
         {
             while (true)
             {
-                Console.WriteLine("Informe uma letra (A-Z):");
-                int letra;
-                letra = Convert.ToInt32(Convert.ToChar(Console.ReadLine().ToUpper()));
+                Console.WriteLine("Digite uma letra (A-Z):");
+                int letra = Convert.ToInt32(Convert.ToChar(Console.ReadLine().ToUpper()));
 
                 if (letra < 65 || letra > 90)
                 {
-                    Console.WriteLine("Letra invalida, digite qualquer tecla e tente novamente:");
+                    Console.WriteLine("Por favor, digite uma letra válida entre A e Z.");
+                    Console.WriteLine("Pressione qualquer tecla para tentar novamente...");
                     Console.ReadKey();
                     Console.Clear();
                 }
-
-                Console.Clear();
-                return letra;
+                else
+                {
+                    Console.Clear();
+                    return letra;
+                }
             }
         }
 
         private static bool EncerrarPrograma()
         {
-            Console.WriteLine("\nDeseja finalizar o programa? (S/N)");
-            string escolha = Console.ReadLine();
+            Console.WriteLine("\nDeseja continuar usando o programa? (S/N)");
+            string escolha = Console.ReadLine().ToUpper();
             return escolha == "N" || escolha == "n";
-
         }
     }
 }
